@@ -1,0 +1,4 @@
+# Large video assets — host these on a CDN instead
+assets/videos/
+
+.DS_Store
