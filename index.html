@@ -117,9 +117,9 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url("DDF4118F-7C33-4605-8EB2-10213B8A796A_1_201_a.heic");
+      background-image: url("about-bg.jpeg");
       background-size: cover;
-      background-position: center center;
+      background-position: 68% center;
       background-repeat: no-repeat;
     }
 
@@ -188,16 +188,15 @@
       overflow: hidden;
     }
 
-    /* Profile photo as full-frame background, anchored right */
+    /* Profile photo as blurred full-frame background, anchored right */
     #about::before {
       content: '';
       position: absolute;
-      inset: 0;
+      inset: -20px;
       background-image: url("about-bg.jpeg");
       background-size: cover;
-      background-position: right center;
-      background-attachment: fixed;
-      filter: brightness(0.45) saturate(0.7);
+      background-position: 68% center;
+      filter: brightness(0.45) saturate(0.7) blur(10px);
       z-index: 0;
     }
 
