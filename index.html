@@ -188,15 +188,15 @@
       overflow: hidden;
     }
 
-    /* Profile photo as blurred full-frame background, anchored right */
+    /* Tech code background for about section */
     #about::before {
       content: '';
       position: absolute;
-      inset: -20px;
-      background-image: url("about-bg.jpeg");
+      inset: 0;
+      background-image: url("about-section-bg.jpg");
       background-size: cover;
-      background-position: 68% center;
-      filter: brightness(0.45) saturate(0.7) blur(10px);
+      background-position: center center;
+      filter: brightness(0.3) saturate(0.8);
       z-index: 0;
     }
 
