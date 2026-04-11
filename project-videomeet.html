@@ -23,6 +23,9 @@
     .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
     .media-slot { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 4px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
     .media-grid img, .media-grid video { width: 100%; border-radius: 4px; display: block; }
+    .live-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 40px; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.15); padding: 12px 24px; border-radius: 2px; transition: color 0.2s, border-color 0.2s; }
+    .live-link:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+    .live-link svg { opacity: 0.6; }
   </style>
 </head>
 <body>
@@ -40,12 +43,19 @@
     <p class="description">
       Videomeet is a video conferencing app I built from scratch — similar to Zoom or Google Meet. You can start a room, share a link, and have multiple people join with live video, audio, and screen sharing, all from a browser on mobile or desktop. The video streams directly between users without going through a central server, which keeps things fast. I also built out the backend with a Node.js API layer so sessions are secure and the platform can handle multiple concurrent rooms reliably.
     </p>
+    <a class="live-link" href="https://videomeet-rho.vercel.app" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Live Project
+    </a>
     <div class="media-section">
-      <div class="media-label">Screenshots &amp; Demo</div>
-      <div class="media-grid" style="grid-template-columns: 1fr;">
-        <video controls style="width:100%;border-radius:4px;display:block;aspect-ratio:16/9;background:#000;">
-          <source src="assets/videos/videomeet.mp4" type="video/mp4">
-        </video>
+      <div class="media-label">Screenshots</div>
+      <div class="media-grid">
+        <img src="assets/screenshots/videomeet-1.png" alt="Videomeet Home">
+        <img src="assets/screenshots/videomeet-2.png" alt="Videomeet Whiteboard">
+        <img src="assets/screenshots/videomeet-3.png" alt="Videomeet Team Chat">
+        <img src="assets/screenshots/videomeet-4.png" alt="Videomeet Scheduler">
+        <img src="assets/screenshots/videomeet-5.png" alt="Videomeet Shared with Me">
+        <img src="assets/screenshots/videomeet-6.png" alt="Videomeet Recordings">
       </div>
     </div>
   </div>
