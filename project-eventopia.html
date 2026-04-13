@@ -16,6 +16,8 @@
     h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 32px; }
     .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 56px; }
     .meta span { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.12); padding: 5px 14px; border-radius: 2px; }
+    .live-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 56px; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #818CF8; border: 1px solid rgba(129,140,248,0.3); padding: 8px 18px; border-radius: 2px; transition: background 0.2s, border-color 0.2s; }
+    .live-link:hover { background: rgba(129,140,248,0.08); border-color: #818CF8; }
     .divider { width: 48px; height: 1px; background: #818CF8; margin-bottom: 40px; }
     .description { font-size: clamp(1.15rem, 2vw, 1.35rem); font-weight: 300; line-height: 1.85; color: rgba(255,255,255,0.75); max-width: 680px; }
     .media-section { margin-top: 80px; }
@@ -36,6 +38,9 @@
     <div class="meta">
       <span>TypeScript</span><span>Next.js</span><span>React</span><span>Node.js</span><span>MongoDB</span>
     </div>
+    <a href="https://eventopia-iota-one.vercel.app" target="_blank" rel="noopener noreferrer" class="live-link">
+      ↗ Live Demo
+    </a>
     <div class="divider"></div>
     <p class="description">
       Eventopia is a platform where people can create, discover, and register for events — similar to Eventbrite. Organizers can post events with all the details, manage their attendee lists, and accept ticket payments through Stripe. Attendees can browse events, register, and check out in just a few clicks. I used Clerk to handle authentication so sign-up and login are smooth from day one, and built webhook validation into the payment flow so every transaction is properly confirmed before an order is finalized.
@@ -43,8 +48,16 @@
     <div class="media-section">
       <div class="media-label">Screenshots &amp; Demo</div>
       <div class="media-grid">
-        <div class="media-slot">Add Screenshot</div>
-        <div class="media-slot">Add Screenshot</div>
+        <img src="assets/screenshots/eventopia-1.png" alt="Eventopia home page" />
+        <img src="assets/screenshots/eventopia-2.png" alt="Eventopia discover events" />
+        <img src="assets/screenshots/eventopia-3.png" alt="Eventopia event detail page" />
+        <img src="assets/screenshots/eventopia-4.png" alt="Eventopia event detail — reviews and related events" />
+        <img src="assets/screenshots/eventopia-5.png" alt="Eventopia Stripe checkout" />
+        <img src="assets/screenshots/eventopia-6.png" alt="Eventopia privacy policy" />
+        <img src="assets/screenshots/eventopia-7.png" alt="Eventopia terms of service" />
+        <img src="assets/screenshots/eventopia-8.png" alt="Eventopia support page" />
+        <img src="assets/screenshots/eventopia-9.png" alt="Eventopia create event form" />
+        <img src="assets/screenshots/eventopia-10.png" alt="Eventopia create event — event details" />
       </div>
     </div>
   </div>
