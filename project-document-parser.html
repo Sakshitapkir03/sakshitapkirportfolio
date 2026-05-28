@@ -122,6 +122,32 @@
       border-radius: 4px;
       display: block;
     }
+
+    .screenshot-group {
+      margin-top: 48px;
+    }
+
+    .screenshot-group:first-child {
+      margin-top: 0;
+    }
+
+    .screenshot-heading {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 14px;
+    }
+
+    .screenshot-heading span {
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: #818CF8;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
   </style>
 </head>
 <body>
@@ -146,9 +172,26 @@
 
     <div class="media-section">
       <div class="media-label">Screenshots &amp; Demo</div>
-      <div class="media-grid">
-        <div class="media-slot">Add Screenshot</div>
-        <div class="media-slot">Add Screenshot</div>
+
+      <div class="screenshot-group">
+        <div class="screenshot-heading"><span></span>Ask Mode — Document Q&amp;A</div>
+        <div class="media-grid">
+          <img src="assets/screenshots/doc-parser-1.png" alt="VaultQA Ask mode — document workspace with query suggestions" />
+        </div>
+      </div>
+
+      <div class="screenshot-group">
+        <div class="screenshot-heading"><span></span>Deep Research Mode</div>
+        <div class="media-grid">
+          <img src="assets/screenshots/doc-parser-2.png" alt="VaultQA Deep Research tab — multi-step reasoning interface" />
+        </div>
+      </div>
+
+      <div class="screenshot-group">
+        <div class="screenshot-heading"><span></span>Research in Progress — Evidence Retrieval</div>
+        <div class="media-grid">
+          <img src="assets/screenshots/doc-parser-3.png" alt="VaultQA Deep Research in action — research plan and evidence retrieval steps" />
+        </div>
       </div>
     </div>
   </div>
