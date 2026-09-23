@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+  CUSTOMIZE CHECKLIST:
+  1. Hero name / title / tagline       (search "Sakshi Tapkir")
+  2. About bio                         (search "PLAYER PROFILE" section)
+  3. Education cards                   (search "TRAINING COURTS" section)
+  4. Project cards                     (search "CHAMPIONSHIP" section)
+  5. Skills                            (search "PLAYER ARSENAL" section)
+  6. Contact links                     (search "COURT OPEN" section)
+  7. LinkedIn URL                      (search "linkedin.com/in/")
+  8. GitHub URL                        (search "github.com/")
+  9. Resume path                       (search "Resume_SakshiTapkir.pdf")
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakshi Tapkir | Frontend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+<style>
+:root{
+  --bg:#060612;--cyan:#67e8f9;--teal:#2dd4bf;
+  --purple:#a78bfa;--amber:#fbbf24;--white:#f1f5f9;
+  --muted:#64748b;--border:rgba(103,232,249,.13);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--white);
+  font-family:'Space Grotesk',sans-serif;}
+
+/* Court lines — invisible during intro */
+.court{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease;}
+.court.vis{opacity:.05;}
+
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));z-index:200;transition:width .5s ease;}
+
+#net{position:fixed;left:50%;top:0;bottom:0;transform:translateX(-50%);width:2px;
+  z-index:15;pointer-events:none;opacity:0;}
+
+/* ── Racket containers ── */
+.ro{position:fixed;top:50%;z-index:20;transition:filter .3s ease;}
+.ro:hover{filter:drop-shadow(0 0 14px rgba(103,232,249,.55));}
+#lo{left:60px;}
+#ro{right:60px;}
+#ro:hover{filter:drop-shadow(0 0 14px rgba(167,139,250,.55));}
+/* Medium windows: smaller rackets closer to edge so they don't overlap content */
+@media(max-width:1100px) and (min-width:769px){
+  #lo{left:16px;}
+  #ro{right:16px;}
+  #lr svg,#rr svg{width:70px !important;height:203px !important;}
+  .sec{padding:0 160px;}
+}
+
+/* Shuttle */
+#sh{position:fixed;left:0;top:0;width:45px;height:66px;z-index:30;pointer-events:none;overflow:visible;}
+
+/* Sections */
+.sec{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  z-index:10;opacity:0;pointer-events:none;padding:0 235px;}
+.sec.on{pointer-events:all;}
+
+/* Nav dots */
+#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:100;
+  display:flex;flex-direction:column;gap:12px;opacity:0;transition:opacity .7s ease;}
+#dots.vis{opacity:1;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);border:none;
+  cursor:pointer;transition:all .3s;padding:0;}
+.dot.on{background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan),0 0 24px rgba(103,232,249,.35);transform:scale(1.5);}
+
+/* ─── HERO ─── */
+.hw{text-align:center;}
+.tagline{font-size:.78rem;font-weight:500;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:18px;opacity:.85;}
+.hname{font-family:'Outfit',sans-serif;font-size:clamp(3rem,7.5vw,6.8rem);font-weight:900;
+  line-height:.95;background:linear-gradient(135deg,#f1f5f9 0%,#67e8f9 42%,#a78bfa 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:12px;}
+.htitle{font-size:clamp(.9rem,2vw,1.35rem);font-weight:300;color:var(--muted);
+  letter-spacing:.2em;margin-bottom:46px;}
+.htitle em{color:var(--teal);font-style:normal;}
+.btns{display:flex;gap:14px;justify-content:center;}
+.btn{padding:13px 32px;border-radius:50px;font-family:'Space Grotesk',sans-serif;
+  font-size:.88rem;font-weight:500;letter-spacing:.08em;cursor:pointer;
+  text-decoration:none;transition:all .3s;border:none;white-space:nowrap;}
+.bf{background:linear-gradient(135deg,var(--cyan),var(--teal));color:var(--bg);font-weight:600;}
+.bo{background:transparent;color:var(--cyan);border:1.5px solid rgba(103,232,249,.6);}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(103,232,249,.22);}
+.sarrow{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  color:var(--muted);font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;}
+.bob{animation:bob 1.6s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+
+/* ─── Shared section utilities ─── */
+.lbl{font-size:.72rem;font-weight:600;letter-spacing:.55em;text-transform:uppercase;
+  color:var(--cyan);display:flex;align-items:center;gap:14px;justify-content:center;
+  margin-bottom:18px;}
+.lbl::before,.lbl::after{content:'';height:1px;width:30px;
+  background:linear-gradient(90deg,transparent,var(--cyan));opacity:.5;}
+.lbl::after{background:linear-gradient(90deg,var(--cyan),transparent);}
+.ttl{font-family:'Outfit',sans-serif;font-size:clamp(2rem,4.5vw,3.4rem);
+  font-weight:800;line-height:1.05;margin-bottom:18px;}
+.ttl .c{color:var(--cyan);}.ttl .p{color:var(--purple);}.ttl .a{color:var(--amber);}
+.dsc{font-size:.98rem;line-height:1.9;color:#94a3b8;max-width:600px;margin:0 auto 8px;}
+
+/* ─── PLAYER PROFILE (About) ─── */
+.profile-wrap{width:100%;max-width:860px;display:grid;grid-template-columns:1fr 2fr;
+  gap:0 52px;align-items:center;}
+.profile-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px solid var(--border);border-radius:20px;padding:32px 24px;
+  background:rgba(103,232,249,.03);backdrop-filter:blur(8px);position:relative;overflow:hidden;}
+.profile-badge::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.badge-num{font-family:'Outfit',sans-serif;font-size:5.5rem;font-weight:900;
+  line-height:1;background:linear-gradient(180deg,var(--cyan) 0%,rgba(103,232,249,.3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.badge-sub{font-size:.65rem;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);
+  margin-top:6px;}
+.profile-right{text-align:left;}
+.profile-right .dsc{margin:0 0 8px;max-width:none;}
+.stats{display:flex;gap:0;margin-top:28px;border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;background:rgba(103,232,249,.02);}
+.stat{flex:1;padding:16px 12px;text-align:center;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.sn{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;color:var(--cyan);}
+.sl{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  margin-top:3px;}
+
+/* ─── TRAINING COURTS (Education) ─── */
+.ew{width:100%;max-width:600px;}
+.ec{border:1px solid var(--border);border-radius:16px;padding:22px 28px;
+  margin-bottom:12px;position:relative;overflow:hidden;
+  background:rgba(103,232,249,.02);backdrop-filter:blur(10px);}
+.ec::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));}
+.ec-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.ed{font-family:'Outfit',sans-serif;font-size:1.08rem;font-weight:700;margin-bottom:4px;}
+.es{font-size:.88rem;color:var(--cyan);}
+.eyear{font-size:.72rem;color:var(--muted);letter-spacing:.08em;white-space:nowrap;
+  background:rgba(103,232,249,.08);border:1px solid rgba(103,232,249,.15);
+  padding:4px 10px;border-radius:20px;margin-top:2px;}
+
+/* ─── CHAMPIONSHIP RALLIES (Projects) ─── */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:700px;width:100%;}
+.pc{border:1px solid var(--border);border-radius:16px;padding:20px 22px;
+  cursor:pointer;transition:all .3s;position:relative;overflow:hidden;text-align:left;
+  background:rgba(103,232,249,.02);}
+.pc-num{font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:700;
+  letter-spacing:.3em;color:var(--amber);opacity:.7;margin-bottom:8px;}
+.pn{font-family:'Outfit',sans-serif;font-size:1.02rem;font-weight:700;margin-bottom:6px;}
+.pd{font-size:.77rem;color:var(--muted);line-height:1.65;margin-bottom:12px;}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;}
+.tg{background:rgba(103,232,249,.07);border:1px solid rgba(103,232,249,.18);
+  color:var(--cyan);font-size:.63rem;padding:3px 8px;border-radius:20px;letter-spacing:.04em;}
+.pc:hover{border-color:rgba(103,232,249,.4);transform:translateY(-5px);
+  box-shadow:0 16px 40px rgba(0,0,0,.4);background:rgba(103,232,249,.04);}
+.arrow-link{color:var(--cyan);opacity:.5;transition:opacity .3s;flex-shrink:0;}
+.pc:hover .arrow-link{opacity:1;}
+.pc-links{display:flex;gap:6px;flex-shrink:0;}
+.pc-link{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;
+  font-size:.63rem;font-weight:500;letter-spacing:.06em;text-decoration:none;
+  border:1px solid rgba(103,232,249,.3);color:var(--cyan);
+  transition:all .25s;white-space:nowrap;}
+.pc-link:hover{background:rgba(103,232,249,.12);border-color:var(--cyan);
+  box-shadow:0 0 10px rgba(103,232,249,.2);}
+.pc-link.gh{border-color:rgba(167,139,250,.3);color:var(--purple);}
+.pc-link.gh:hover{background:rgba(167,139,250,.12);border-color:var(--purple);
+  box-shadow:0 0 10px rgba(167,139,250,.2);}
+
+/* ─── PLAYER ARSENAL (Skills) ─── */
+.sw{width:100%;max-width:680px;}
+.zone{margin-bottom:20px;}
+.zone-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.zone-label{font-size:.65rem;letter-spacing:.42em;text-transform:uppercase;color:var(--muted);}
+.zone-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+.pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.22);
+  color:var(--white);font-size:.82rem;padding:7px 16px;border-radius:30px;font-weight:500;
+  transition:all .25s;cursor:default;}
+.pill:hover{background:rgba(167,139,250,.18);border-color:var(--purple);
+  transform:translateY(-2px);box-shadow:0 4px 14px rgba(167,139,250,.15);}
+
+/* ─── COURT OPEN (Contact) ─── */
+.contact-wrap{text-align:center;max-width:640px;}
+.court-status{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;
+  border:1px solid rgba(103,232,249,.25);border-radius:30px;margin-bottom:24px;
+  font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);
+  animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+.cls{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:28px;}
+.cl{display:flex;align-items:center;gap:11px;padding:14px 20px;
+  background:rgba(103,232,249,.03);border:1px solid var(--border);border-radius:14px;
+  text-decoration:none;color:var(--white);font-size:.86rem;transition:all .3s;
+  position:relative;overflow:hidden;}
+.cl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--cyan);transform:scaleY(0);transition:transform .3s;transform-origin:bottom;}
+.cl:hover{background:rgba(103,232,249,.08);border-color:rgba(103,232,249,.38);
+  transform:translateY(-2px);padding-left:28px;}
+.cl:hover::before{transform:scaleY(1);}
+.cl-label{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);margin-top:1px;}
+
+/* Mid-size windows: stack profile badge before it gets too narrow */
+@media(max-width:1050px) and (min-width:769px){
+  .profile-wrap{grid-template-columns:1fr;gap:16px;max-width:560px;}
+  .profile-badge{flex-direction:row;align-items:center;gap:18px;padding:14px 20px;}
+  .badge-num{font-size:3.6rem;}
+  .badge-sub{text-align:left;}
+  .stats .stat{padding:12px 10px;}
+}
+
+@media(prefers-reduced-motion:reduce){.bob,.status-dot{animation:none;}}
+
+/* Sections that scroll internally when content exceeds viewport height */
+#s1,#s3{overflow-y:auto;align-items:flex-start;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;scrollbar-color:rgba(103,232,249,.25) transparent;}
+#s1::-webkit-scrollbar,#s3::-webkit-scrollbar{width:4px;}
+#s1::-webkit-scrollbar-track,#s3::-webkit-scrollbar-track{background:transparent;}
+#s1::-webkit-scrollbar-thumb,#s3::-webkit-scrollbar-thumb{background:rgba(103,232,249,.25);border-radius:2px;}
+/* margin:auto centres the inner div when content fits; collapses to 0 when overflowing */
+#s1>div,#s3>div{margin:auto;padding:40px 0;}
+
+/* ══════════════════════════════════════════════
+   MOBILE  (≤ 768 px)
+   - Rackets scaled to 44×127, pinned to edges
+   - Shuttle flies across; all badminton theme preserved
+   - Sections scrollable inside viewport
+   - All layouts stack to single column
+══════════════════════════════════════════════ */
+@media(max-width:768px){
+  /* Rackets: scaled down and repositioned to edges */
+  #lo{left:4px;}
+  #ro{right:4px;}
+  #lr svg,#rr svg{width:44px !important;height:127px !important;}
+
+  /* Sections: scrollable, padded to clear side rackets */
+  .sec{
+    padding:32px 95px 90px;
+    align-items:flex-start;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  /* Hero stays centred */
+  #s0{align-items:center;}
+
+  /* ── Hero ── */
+  .hw{text-align:center;}
+  .tagline{font-size:.7rem;letter-spacing:.35em;}
+  .htitle{letter-spacing:.08em;margin-bottom:28px;font-size:.9rem;}
+  .btns{flex-direction:column;align-items:center;gap:10px;}
+  .btn{width:210px;text-align:center;}
+  .sarrow{bottom:100px;}
+
+  /* ── About ── */
+  .profile-wrap{grid-template-columns:1fr;gap:18px;max-width:100%;}
+  .profile-badge{flex-direction:row;align-items:center;justify-content:flex-start;
+    gap:18px;padding:16px 18px;}
+  .badge-num{font-size:3.4rem;}
+  .badge-sub{text-align:left;}
+  .stats{flex-wrap:wrap;}
+  .stat{flex:1 1 30%;padding:12px 8px;}
+  .sn{font-size:1.5rem;}
+  .sl{font-size:.58rem;}
+
+  /* ── Education ── */
+  .ew{max-width:100%;}
+  .ec{padding:14px 16px;margin-bottom:10px;}
+  .ed{font-size:.96rem;}
+  .eyear{font-size:.66rem;}
+
+  /* ── Projects ── */
+  .pg{grid-template-columns:1fr;max-width:100%;gap:10px;}
+  .pc{padding:14px 16px;}
+  .pn{font-size:.94rem;}
+  .pd{font-size:.74rem;margin-bottom:10px;}
+
+  /* ── Skills ── */
+  .sw{max-width:100%;}
+  .zone{margin-bottom:16px;}
+  .pill{font-size:.76rem;padding:6px 13px;}
+
+  /* ── Contact ── */
+  .contact-wrap{max-width:100%;}
+  .cls{grid-template-columns:1fr;gap:9px;margin-top:18px;}
+  .cl{padding:12px 16px;}
+
+  /* ── Nav dots: pill at bottom centre ── */
+  #dots{
+    right:auto;top:auto;
+    bottom:20px;left:50%;
+    transform:translateX(-50%);
+    flex-direction:row;gap:14px;
+    background:rgba(6,6,18,.72);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    padding:9px 18px;border-radius:30px;
+    border:1px solid rgba(103,232,249,.18);
+  }
+  .dot{width:9px;height:9px;}
+
+  /* Progress bar stays visible */
+  #prog{height:2px;}
+}
+
+/* ── Small phones (≤ 430 px) ── */
+@media(max-width:430px){
+  .hname{font-size:clamp(2.2rem,11vw,3.2rem);}
+  .ttl{font-size:clamp(1.5rem,6.5vw,2.1rem);}
+  .dsc{font-size:.88rem;line-height:1.75;}
+  .profile-badge{flex-direction:column;align-items:center;text-align:center;padding:16px;}
+  .badge-sub{text-align:center;}
+  .stat{flex:1 1 45%;}
+  .ec,.pc{padding:12px 14px;}
+  .ed{font-size:.9rem;}
+  .badge-num{font-size:3rem;}
+  .lbl{font-size:.65rem;letter-spacing:.4em;}
+}
+
+/* ── Grain/noise texture overlay ── */
+body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;opacity:.038;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:200px;}
+
+
+/* ── Nav dot tooltips ── */
+.dot-wrap{position:relative;display:flex;align-items:center;justify-content:flex-end;}
+.dot-tip{position:absolute;right:20px;font-family:'Space Grotesk',sans-serif;font-size:.6rem;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--cyan);
+  background:rgba(6,6,18,.88);border:1px solid rgba(103,232,249,.2);
+  padding:4px 11px;border-radius:20px;white-space:nowrap;opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s;transform:translateX(6px);backdrop-filter:blur(8px);}
+.dot-wrap:hover .dot-tip{opacity:1;transform:translateX(0);}
+@media(max-width:768px){.dot-tip{display:none;}}
+
+/* ── Boston clock ── */
+.boston-time{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<!-- Court background lines -->
+<svg class="court" id="court" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="55" y="38" width="1330" height="824" fill="none" stroke="#67e8f9" stroke-width="1.5"/>
+  <line x1="55"   y1="338" x2="1385" y2="338" stroke="#67e8f9" stroke-width="1"/>
+  <line x1="55"   y1="562" x2="1385" y2="562" stroke="#67e8f9" stroke-width="1"/>
+  <line x1="720"  y1="38"  x2="720"  y2="862" stroke="#67e8f9" stroke-width="1.5"/>
+  <line x1="200"  y1="338" x2="200"  y2="562" stroke="#67e8f9" stroke-width=".8"/>
+  <line x1="1240" y1="338" x2="1240" y2="562" stroke="#67e8f9" stroke-width=".8"/>
+</svg>
+
+<!-- Net -->
+<svg id="net" viewBox="0 0 2 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:2px;height:100%;">
+  <defs>
+    <linearGradient id="ng" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#67e8f9" stop-opacity="0"/>
+      <stop offset="12%"  stop-color="#67e8f9" stop-opacity=".45"/>
+      <stop offset="88%"  stop-color="#67e8f9" stop-opacity=".45"/>
+      <stop offset="100%" stop-color="#67e8f9" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="2" height="100" fill="url(#ng)"/>
+</svg>
+
+<!-- ══════════════════════════════════════════════════════
+     LEFT RACKET — CYAN
+     Head oval (rx=43 ry=54, ratio 0.80) directly connects to
+     a single shaft with NO throat piece — clean single arm.
+═══════════════════════════════════════════════════════════ -->
+<div class="ro" id="lo">
+  <div id="lr">
+    <svg viewBox="0 0 100 290" width="88" height="255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Strings clipped to inner oval (4.5 units inside frame) -->
+        <clipPath id="hcl">
+          <ellipse cx="50" cy="64" rx="37" ry="48"/>
+        </clipPath>
+        <!-- Frame highlight gradient: simulates curved tube cross-section -->
+        <linearGradient id="fgl" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#2dd4bf" stop-opacity=".7"/>
+          <stop offset="50%"  stop-color="#67e8f9" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#2dd4bf" stop-opacity=".7"/>
+        </linearGradient>
+      </defs>
+
+      <!-- ── HEAD FRAME ──
+           Thick stroke (9) = visible frame tube width.
+           Very faint fill so string area reads against background.
+      -->
+      <ellipse cx="50" cy="64" rx="43" ry="54"
+        fill="rgba(103,232,249,.05)"
+        stroke="url(#fgl)" stroke-width="9"/>
+
+      <!-- Frame inner edge highlight (simulates round tube shape) -->
+      <ellipse cx="50" cy="64" rx="37" ry="48"
+        fill="none" stroke="#67e8f9" stroke-width="1" opacity=".28"/>
+
+      <!-- Brand accent arc at head top (like yonex/victor stripe) -->
+      <path d="M32,14 Q50,8 68,14"
+        fill="none" stroke="#2dd4bf" stroke-width="3.5" stroke-linecap="round" opacity=".85"/>
+
+      <!-- ── STRINGS ── -->
+      <g clip-path="url(#hcl)" stroke="#9cd8e8" stroke-width=".85" opacity=".45">
+        <!-- Vertical mains, spaced 7px -->
+        <line x1="15" y1="5"  x2="15" y2="125"/><line x1="22" y1="5"  x2="22" y2="125"/>
+        <line x1="29" y1="5"  x2="29" y2="125"/><line x1="36" y1="5"  x2="36" y2="125"/>
+        <line x1="43" y1="5"  x2="43" y2="125"/><line x1="50" y1="5"  x2="50" y2="125"/>
+        <line x1="57" y1="5"  x2="57" y2="125"/><line x1="64" y1="5"  x2="64" y2="125"/>
+        <line x1="71" y1="5"  x2="71" y2="125"/><line x1="78" y1="5"  x2="78" y2="125"/>
+        <line x1="85" y1="5"  x2="85" y2="125"/>
+        <!-- Horizontal crosses, spaced 7px -->
+        <line x1="5" y1="16"  x2="95" y2="16"/> <line x1="5" y1="23"  x2="95" y2="23"/>
+        <line x1="5" y1="30"  x2="95" y2="30"/> <line x1="5" y1="37"  x2="95" y2="37"/>
+        <line x1="5" y1="44"  x2="95" y2="44"/> <line x1="5" y1="51"  x2="95" y2="51"/>
+        <line x1="5" y1="58"  x2="95" y2="58"/> <line x1="5" y1="65"  x2="95" y2="65"/>
+        <line x1="5" y1="72"  x2="95" y2="72"/> <line x1="5" y1="79"  x2="95" y2="79"/>
+        <line x1="5" y1="86"  x2="95" y2="86"/> <line x1="5" y1="93"  x2="95" y2="93"/>
+        <line x1="5" y1="100" x2="95" y2="100"/><line x1="5" y1="107" x2="95" y2="107"/>
+        <line x1="5" y1="114" x2="95" y2="114"/>
+      </g>
+
+      <!-- Sweet-spot indicator (subtle amber oval) -->
+      <ellipse cx="50" cy="60" rx="13" ry="16"
+        fill="none" stroke="rgba(251,191,36,.2)" stroke-width="1.5"/>
+
+      <!-- ── SHAFT — single arm exits directly from oval bottom, no throat ── -->
+      <rect x="43" y="112" width="14" height="117" rx="4"
+        fill="url(#fgl)" opacity=".9"/>
+      <!-- Racing stripe -->
+      <rect x="48" y="116" width="4" height="110" rx="2"
+        fill="#67e8f9" opacity=".38"/>
+
+      <!-- ── GRIP ── -->
+      <rect x="41" y="229" width="18" height="50" rx="9"
+        fill="rgba(45,212,191,.1)" stroke="#2dd4bf" stroke-width="4"/>
+      <!-- Wrap bands — evenly spaced -->
+      <line x1="41" y1="242" x2="59" y2="242" stroke="#67e8f9" stroke-width="1.8" opacity=".4"/>
+      <line x1="41" y1="251" x2="59" y2="251" stroke="#67e8f9" stroke-width="1.8" opacity=".4"/>
+      <line x1="41" y1="260" x2="59" y2="260" stroke="#67e8f9" stroke-width="1.8" opacity=".4"/>
+      <line x1="41" y1="269" x2="59" y2="269" stroke="#67e8f9" stroke-width="1.8" opacity=".4"/>
+
+      <!-- ── END CAP (butt of grip) ── -->
+      <circle cx="50" cy="279" r="8.5" fill="#2dd4bf" opacity=".82"/>
+      <circle cx="50" cy="279" r="4"   fill="#060612" opacity=".75"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     RIGHT RACKET — PURPLE (identical shape, mirrored via scaleX:-1)
+═══════════════════════════════════════════════════════════ -->
+<div class="ro" id="ro">
+  <div id="rr">
+    <svg viewBox="0 0 100 290" width="88" height="255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="hcr">
+          <ellipse cx="50" cy="64" rx="37" ry="48"/>
+        </clipPath>
+        <linearGradient id="fgr" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#818cf8" stop-opacity=".7"/>
+          <stop offset="50%"  stop-color="#a78bfa" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#818cf8" stop-opacity=".7"/>
+        </linearGradient>
+      </defs>
+
+      <!-- HEAD FRAME -->
+      <ellipse cx="50" cy="64" rx="43" ry="54"
+        fill="rgba(167,139,250,.05)"
+        stroke="url(#fgr)" stroke-width="9"/>
+      <ellipse cx="50" cy="64" rx="37" ry="48"
+        fill="none" stroke="#a78bfa" stroke-width="1" opacity=".28"/>
+      <!-- Purple brand accent arc -->
+      <path d="M32,14 Q50,8 68,14"
+        fill="none" stroke="#a78bfa" stroke-width="3.5" stroke-linecap="round" opacity=".9"/>
+
+      <!-- STRINGS -->
+      <g clip-path="url(#hcr)" stroke="#c4b0f0" stroke-width=".85" opacity=".42">
+        <line x1="15" y1="5"  x2="15" y2="125"/><line x1="22" y1="5"  x2="22" y2="125"/>
+        <line x1="29" y1="5"  x2="29" y2="125"/><line x1="36" y1="5"  x2="36" y2="125"/>
+        <line x1="43" y1="5"  x2="43" y2="125"/><line x1="50" y1="5"  x2="50" y2="125"/>
+        <line x1="57" y1="5"  x2="57" y2="125"/><line x1="64" y1="5"  x2="64" y2="125"/>
+        <line x1="71" y1="5"  x2="71" y2="125"/><line x1="78" y1="5"  x2="78" y2="125"/>
+        <line x1="85" y1="5"  x2="85" y2="125"/>
+        <line x1="5" y1="16"  x2="95" y2="16"/> <line x1="5" y1="23"  x2="95" y2="23"/>
+        <line x1="5" y1="30"  x2="95" y2="30"/> <line x1="5" y1="37"  x2="95" y2="37"/>
+        <line x1="5" y1="44"  x2="95" y2="44"/> <line x1="5" y1="51"  x2="95" y2="51"/>
+        <line x1="5" y1="58"  x2="95" y2="58"/> <line x1="5" y1="65"  x2="95" y2="65"/>
+        <line x1="5" y1="72"  x2="95" y2="72"/> <line x1="5" y1="79"  x2="95" y2="79"/>
+        <line x1="5" y1="86"  x2="95" y2="86"/> <line x1="5" y1="93"  x2="95" y2="93"/>
+        <line x1="5" y1="100" x2="95" y2="100"/><line x1="5" y1="107" x2="95" y2="107"/>
+        <line x1="5" y1="114" x2="95" y2="114"/>
+      </g>
+
+      <ellipse cx="50" cy="60" rx="13" ry="16"
+        fill="none" stroke="rgba(251,191,36,.18)" stroke-width="1.5"/>
+
+      <!-- SHAFT — single arm from oval bottom, no throat -->
+      <rect x="43" y="112" width="14" height="117" rx="4"
+        fill="url(#fgr)" opacity=".9"/>
+      <rect x="48" y="116" width="4" height="110" rx="2"
+        fill="#a78bfa" opacity=".38"/>
+
+      <!-- GRIP -->
+      <rect x="41" y="229" width="18" height="50" rx="9"
+        fill="rgba(129,140,248,.1)" stroke="#818cf8" stroke-width="4"/>
+      <line x1="41" y1="242" x2="59" y2="242" stroke="#a78bfa" stroke-width="1.8" opacity=".4"/>
+      <line x1="41" y1="251" x2="59" y2="251" stroke="#a78bfa" stroke-width="1.8" opacity=".4"/>
+      <line x1="41" y1="260" x2="59" y2="260" stroke="#a78bfa" stroke-width="1.8" opacity=".4"/>
+      <line x1="41" y1="269" x2="59" y2="269" stroke="#a78bfa" stroke-width="1.8" opacity=".4"/>
+
+      <!-- END CAP -->
+      <circle cx="50" cy="279" r="8.5" fill="#818cf8" opacity=".82"/>
+      <circle cx="50" cy="279" r="4"   fill="#060612" opacity=".75"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SHUTTLECOCK — matches reference photo:
+     - Narrow individual white feathers (real goose proportions)
+     - Prominent BLACK band at feather base
+     - White/gray foam cork hemisphere
+     - Spins during flight arc
+═══════════════════════════════════════════════════════════ -->
+<div id="sh">
+  <svg viewBox="0 0 90 132" width="45" height="66" overflow="visible" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Cork: white foam/rubber, NOT amber — matches real shuttle -->
+      <radialGradient id="cg" cx="35%" cy="26%" r="74%">
+        <stop offset="0%"   stop-color="#ffffff"/>
+        <stop offset="50%"  stop-color="#d8d8d8"/>
+        <stop offset="100%" stop-color="#888888"/>
+      </radialGradient>
+      <!-- Feather vane: NARROW — matches the slender profile in the photo -->
+      <path id="fv"
+        d="M0,-88 C11,-70 13,-42 10,-4 L0,3 L-10,-4 C-13,-42 -11,-70 0,-88 Z"/>
+      <!-- Quill (centre rib of each feather) -->
+      <line id="fql" x1="0" y1="3" x2="0" y2="-88"/>
+    </defs>
+
+    <!-- 13 feathers — outermost pair first (behind), centre last (on top) -->
+    <g transform="translate(45,100)">
+      <!-- Mid feathers -->
+      <use href="#fv" transform="rotate(-42)" fill="#cccccc"/>
+      <use href="#fv" transform="rotate( 42)" fill="#cccccc"/>
+      <use href="#fv" transform="rotate(-28)" fill="#dedede"/>
+      <use href="#fv" transform="rotate( 28)" fill="#dedede"/>
+      <!-- Near-front feathers -->
+      <use href="#fv" transform="rotate(-14)" fill="#eeeeee"/>
+      <use href="#fv" transform="rotate( 14)" fill="#eeeeee"/>
+      <!-- Front-centre feather: near-pure white, on top -->
+      <use href="#fv" transform="rotate(  0)" fill="#f9f9f9"/>
+
+      <!-- Natural quill ribs — visible down the front 5 feathers -->
+      <use href="#fql" transform="rotate(-28)" stroke="#c8c090" stroke-width="0.9" opacity=".44"/>
+      <use href="#fql" transform="rotate( 28)" stroke="#c8c090" stroke-width="0.9" opacity=".44"/>
+      <use href="#fql" transform="rotate(-14)" stroke="#d0c898" stroke-width="1.1" opacity=".60"/>
+      <use href="#fql" transform="rotate( 14)" stroke="#d0c898" stroke-width="1.1" opacity=".60"/>
+      <use href="#fql" transform="rotate(  0)" stroke="#d8d0a0" stroke-width="1.4" opacity=".78"/>
+    </g>
+
+    <!-- Top rim — the circular open mouth of the feather cone -->
+    <ellipse cx="45" cy="12" rx="24" ry="6"
+      fill="rgba(210,210,210,.08)" stroke="#d4d4cc" stroke-width="1.2"/>
+
+    <!-- ── BLACK BAND (exactly as in reference photo) ── -->
+    <ellipse cx="45" cy="101" rx="16"  ry="5.5" fill="#0a0a0a"/>
+    <ellipse cx="45" cy="99"  rx="12.5" ry="3"  fill="#161616" opacity=".8"/>
+    <!-- Thin highlight on black band top edge -->
+    <ellipse cx="45" cy="96"  rx="12"  ry="1.8" fill="rgba(255,255,255,.08)"/>
+
+    <!-- ── WHITE CORK DOME (foam rubber hemisphere) ── -->
+    <path d="M29,101 Q29,127 45,129 Q61,127 61,101 Z" fill="url(#cg)"/>
+    <!-- Bottom cap -->
+    <ellipse cx="45" cy="129" rx="16"  ry="4.5" fill="#aaaaaa"/>
+    <!-- Large soft highlight — suggests the dimpled foam texture -->
+    <ellipse cx="38" cy="109" rx="8"   ry="7"   fill="rgba(255,255,255,.52)"/>
+    <!-- Secondary smaller specular -->
+    <ellipse cx="40" cy="106" rx="3.5" ry="3"   fill="rgba(255,255,255,.38)"/>
+  </svg>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 0 — THE SERVE (Hero)
+     Intro leaves the court and reveals your name here.
+═══════════════════════════════════════════════════════════ -->
+<section class="sec" id="s0">
+  <div class="hw">
+    <p class="tagline">The Serve &nbsp;·&nbsp; <span id="hero-score">0 : 0</span></p>
+    <h1 class="hname">Sakshi<br>Tapkir</h1>
+    <p class="htitle">Frontend Engineer &nbsp;·&nbsp; <em>Building for the Long Rally</em></p>
+    <div class="btns">
+      <button class="btn bf" onclick="goTo(3)">View My Work</button>
+      <button class="btn bo" onclick="goTo(5)">Get In Touch</button>
+    </div>
+    <div class="sarrow">
+      <svg class="bob" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+      <span>Scroll to rally</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 1 — PLAYER PROFILE (About)
+     A player-card layout: badge + bio + stats row.
+═══════════════════════════════════════════════════════════ -->
+<section class="sec" id="s1">
+  <div style="width:100%;max-width:860px;">
+    <div class="lbl">Player Profile</div>
+    <div class="profile-wrap">
+
+      <!-- Left: decorative badge -->
+      <div class="profile-badge">
+        <div class="badge-num">ST</div>
+        <div class="badge-sub">Frontend Engineer</div>
+        <!-- Small court SVG decoration -->
+        <svg width="56" height="28" viewBox="0 0 56 28" style="margin-top:18px;opacity:.4">
+          <rect x="1" y="1" width="54" height="26" rx="3" fill="none" stroke="#67e8f9" stroke-width="1.2"/>
+          <line x1="28" y1="1" x2="28" y2="27" stroke="#67e8f9" stroke-width="1"/>
+          <ellipse cx="28" cy="14" rx="8" ry="8" fill="none" stroke="#67e8f9" stroke-width="1"/>
+        </svg>
+      </div>
+
+      <!-- Right: bio -->
+      <div class="profile-right">
+        <p class="dsc" style="margin-bottom:12px;">
+          Like a player who reads the court intuitively, I decode complex requirements and engineer precise, performant interfaces. Every sprint is a tournament — I play to win.
+        </p>
+        <p class="dsc">
+          Currently sharpening my game at Northeastern University, Boston. I specialize in React ecosystems, animation-rich UIs, and the intersection of design and engineering.
+        </p>
+
+        <!-- Stats row -->
+        <div class="stats">
+          <div class="stat">
+            <div class="sn">3+</div>
+            <div class="sl">Seasons</div>
+          </div>
+          <div class="stat">
+            <div class="sn">15+</div>
+            <div class="sl">Match Wins</div>
+          </div>
+          <div class="stat">
+            <div class="sn">10+</div>
+            <div class="sl">Weapons</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 2 — TRAINING COURTS (Education)
+     Where you sharpened your game.
+═══════════════════════════════════════════════════════════ -->
+<section class="sec" id="s2">
+  <div style="text-align:center;width:100%;">
+    <div class="lbl">Training Courts</div>
+    <h2 class="ttl">Sharpened at the <span class="p">Academy</span></h2>
+    <div class="ew" style="margin:0 auto;">
+
+      <div class="ec">
+        <div class="ec-header">
+          <div>
+            <div class="ed">MS in Computer Software Engineering</div>
+            <div class="es">Northeastern University · Boston, MA</div>
+          </div>
+          <div class="eyear">2024 – 2026</div>
+        </div>
+      </div>
+
+      <div class="ec" style="margin-bottom:0">
+        <div class="ec-header">
+          <div>
+            <div class="ed">B.Sc. in Computer Science</div>
+            <div class="es">University of Pune · India</div>
+          </div>
+          <div class="eyear">2020 – 2023</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 3 — CHAMPIONSHIP RALLIES (Projects)
+     Each project = a tournament win.
+═══════════════════════════════════════════════════════════ -->
+<section class="sec" id="s3">
+  <div style="text-align:center;width:100%;">
+    <div class="lbl">Championship Rallies</div>
+    <h2 class="ttl">My Finest <span class="a">Shots</span></h2>
+    <div class="pg" style="margin:0 auto;">
+
+      <div class="pc">
+        <div class="pc-num">RALLY 01</div>
+        <div class="pn">Eventopia</div>
+        <div class="pd">Event discovery &amp; ticketing platform — organizers post events, manage attendees, and accept Stripe payments with Clerk authentication and webhook-validated payment flows.</div>
+        <div class="pc-foot">
+          <div class="tags"><span class="tg">Next.js</span><span class="tg">TypeScript</span><span class="tg">MongoDB</span><span class="tg">Stripe</span><span class="tg">Clerk</span></div>
+          <div class="pc-links">
+            <a class="pc-link" href="https://eventopia-iota-one.vercel.app/" target="_blank" rel="noopener noreferrer" title="Live Demo">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pc">
+        <div class="pc-num">RALLY 02</div>
+        <div class="pn">MaintainEase</div>
+        <div class="pd">Home maintenance services platform for Greater Boston — connecting homeowners with trusted providers for plumbing, electrical, painting, and more.</div>
+        <div class="pc-foot">
+          <div class="tags"><span class="tg">React</span><span class="tg">Redux</span><span class="tg">Node.js</span><span class="tg">MongoDB</span><span class="tg">AWS S3</span></div>
+          <div class="pc-links">
+            <a class="pc-link gh" href="https://github.com/Sakshitapkir03/MaintainEase" target="_blank" rel="noopener noreferrer" title="GitHub">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--purple)" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pc">
+        <div class="pc-num">RALLY 03</div>
+        <div class="pn">Video Conferencing App</div>
+        <div class="pd">Real-time video conferencing with video/audio chat, screen sharing, and in-session messaging — WebRTC-powered virtual meeting rooms with no plugins required.</div>
+        <div class="pc-foot">
+          <div class="tags"><span class="tg">WebRTC</span><span class="tg">Socket.IO</span><span class="tg">Node.js</span><span class="tg">Express</span></div>
+          <div class="pc-links">
+            <a class="pc-link" href="https://videomeet-rho.vercel.app/" target="_blank" rel="noopener noreferrer" title="Live Demo">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pc">
+        <div class="pc-num">RALLY 04</div>
+        <div class="pn">Smart Travel</div>
+        <div class="pd">End-to-end UI/UX design for a smart travel planning app — full user flows, a complete component system, and an interactive prototype built in Figma.</div>
+        <div class="pc-foot">
+          <div class="tags"><span class="tg">Figma</span><span class="tg">UI/UX Design</span><span class="tg">Prototyping</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 4 — PLAYER ARSENAL (Skills)
+     Court zones map to skill categories.
+═══════════════════════════════════════════════════════════ -->
+<section class="sec" id="s4">
+  <div style="text-align:center;width:100%;">
+    <div class="lbl">Player Arsenal</div>
+    <h2 class="ttl">Weapons in My <span class="c">Kit</span></h2>
+    <div class="sw" style="margin:0 auto;text-align:left;">
+
+      <div class="zone">
+        <div class="zone-hd">
+          <span class="zone-label">Power Serves &mdash; Languages</span>
+          <div class="zone-line"></div>
+        </div>
+        <div class="pills">
+          <span class="pill">JavaScript</span><span class="pill">TypeScript</span>
+          <span class="pill">HTML5</span><span class="pill">CSS3</span>
+        </div>
+      </div>
+
+      <div class="zone">
+        <div class="zone-hd">
+          <span class="zone-label">Winning Smashes &mdash; Frameworks &amp; Runtime</span>
+          <div class="zone-line"></div>
+        </div>
+        <div class="pills">
+          <span class="pill">React</span><span class="pill">Next.js</span>
+          <span class="pill">Node.js</span><span class="pill">Express</span><span class="pill">Redux</span>
+        </div>
+      </div>
+
+      <div class="zone">
+        <div class="zone-hd">
+          <span class="zone-label">Court Vision &mdash; Tools &amp; Platforms</span>
+          <div class="zone-line"></div>
+        </div>
+        <div class="pills">
+          <span class="pill">Git</span><span class="pill">Figma</span>
+          <span class="pill">WebRTC</span><span class="pill">Socket.IO</span><span class="pill">AWS S3</span><span class="pill">Stripe</span>
+        </div>
+      </div>
+
+      <div class="zone" style="margin-bottom:0">
+        <div class="zone-hd">
+          <span class="zone-label">Net Play &mdash; Data &amp; Auth</span>
+          <div class="zone-line"></div>
+        </div>
+        <div class="pills">
+          <span class="pill">MongoDB</span><span class="pill">REST APIs</span>
+          <span class="pill">Clerk</span><span class="pill">Webhooks</span><span class="pill">InfluxDB</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 5 — COURT OPEN (Contact)
+     Status: online. Ready for the next rally.
+═══════════════════════════════════════════════════════════ -->
+<section class="sec" id="s5">
+  <div class="contact-wrap">
+    <div class="lbl">Court Open</div>
+    <div class="court-status">
+      <div class="status-dot"></div>
+      Available for opportunities
+    </div>
+    <div class="boston-time" id="boston-clock">Boston · –</div>
+    <h2 class="ttl">Ready for the<br><span class="c">Next Rally?</span></h2>
+    <p class="dsc">Whether you're scouting for a full-time role, a sprint collaboration, or just want to talk frontend craft — step onto the court.</p>
+
+    <div class="cls">
+      <a class="cl" href="mailto:sakshitapkir03@gmail.com">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22,7-8.97,5.7a1.94,1.94,0,0,1-2.06,0L2,7"/></svg>
+        <div>
+          <div>Email</div>
+          <div class="cl-label">Direct Serve</div>
+        </div>
+      </a>
+      <a class="cl" href="https://www.linkedin.com/in/sakshitapkir13/" target="_blank" rel="noopener noreferrer">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="var(--cyan)" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <div>
+          <div>LinkedIn</div>
+          <div class="cl-label">Professional Court</div>
+        </div>
+      </a>
+      <a class="cl" href="https://github.com/Sakshitapkir03" target="_blank" rel="noopener noreferrer">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="var(--cyan)" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        <div>
+          <div>GitHub</div>
+          <div class="cl-label">Open Rallies</div>
+        </div>
+      </a>
+      <a class="cl" href="Resume_Sakshi.pdf" target="_blank">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <div>
+          <div>Resume</div>
+          <div class="cl-label">Match Brief</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NAV DOTS (appear after intro) -->
+<div id="dots">
+  <div class="dot-wrap"><button class="dot" onclick="goTo(0)" aria-label="The Serve"></button><span class="dot-tip">The Serve</span></div>
+  <div class="dot-wrap"><button class="dot" onclick="goTo(1)" aria-label="Player Profile"></button><span class="dot-tip">Player Profile</span></div>
+  <div class="dot-wrap"><button class="dot" onclick="goTo(2)" aria-label="Training Courts"></button><span class="dot-tip">Training Courts</span></div>
+  <div class="dot-wrap"><button class="dot" onclick="goTo(3)" aria-label="Championship Rallies"></button><span class="dot-tip">Championship Rallies</span></div>
+  <div class="dot-wrap"><button class="dot" onclick="goTo(4)" aria-label="Player Arsenal"></button><span class="dot-tip">Player Arsenal</span></div>
+  <div class="dot-wrap"><button class="dot" onclick="goTo(5)" aria-label="Court Open"></button><span class="dot-tip">Court Open</span></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  gsap.registerPlugin(MotionPathPlugin);
+
+  const N = 6;
+  let cur = 0, busy = true; /* locked until intro completes */
+  let maxSec = 0, statsAnimated = false;
+
+  const secs  = Array.from({length:N}, (_,i) => document.getElementById('s'+i));
+  const dots  = document.querySelectorAll('.dot');
+  const dotsW = document.getElementById('dots');
+  const prog  = document.getElementById('prog');
+  const sh    = document.getElementById('sh');
+  const lo    = document.getElementById('lo');
+  const lr    = document.getElementById('lr');
+  const roEl  = document.getElementById('ro');
+  const rr    = document.getElementById('rr');
+  const net   = document.getElementById('net');
+  const court = document.getElementById('court');
+
+  const W = () => window.innerWidth;
+  const H = () => window.innerHeight;
+  const M   = () => window.innerWidth <= 768;
+  const MED = () => !M() && window.innerWidth <= 1100;
+
+  /* Shuttle rendered 90×120 */
+  const SHW = 45, SHH = 66;
+  /* Shuttle rests at left racket head so it drops there and gets served right */
+  const shHomeX = () => LHX() - SHW/2;
+  const shHomeY = () => LHY() - SHH/2;
+
+  /* ── Racket head screen positions ──
+     SVG viewBox 0 0 100 290, rendered 88×255. Scale = 88/100 = 0.88.
+     CSS: #lo left:60px, #ro right:60px.
+     End cap at SVG y=279 → rendered = 279*0.88 = 245.5px ≈ 246px.
+     SVG centre x rendered: 50*0.88 = 44px.
+     Container left edge screen x: 60px.
+     Pivot screen x: 60 + 44 = 104.
+     Container top: H/2 - 255/2 = H/2 - 127.5.
+     Pivot screen y: H/2 - 127.5 + 246 = H/2 + 118.5.
+
+     Head centre SVG (50, 64) → rendered (44, 56.3px from top).
+     Vector pivot→head in rendered px: (0, 56.3-246) = (0, -189.7).
+     After 28° CW rotation (GSAP rotation=28):
+       dx = 189.7 * sin28° = 189.7 * 0.4695 = 89.1
+       dy = -189.7 * cos28° = -189.7 * 0.8829 = -167.5
+     Left head screen x = 104 + 89.1 = 193
+     Left head screen y = (H/2+118.5) - 167.5 = H/2 - 49
+  */
+  /* Head positions — recalculated for each size tier:
+     Desktop (>1100px): SVG 88×255 at left:60px  → head x=193, y=H/2-49
+     Medium (769-1100px): SVG 70×203 at left:16px → head x=122, y=H/2-39
+     Mobile (≤768px):  SVG 44×127 at left:4px   → head x=70,  y=H/2-24  */
+  const LHX = () => M() ? 70  : MED() ? 122       : 193;
+  const LHY = () => M() ? H()/2 - 24 : MED() ? H()/2 - 39 : H()/2 - 49;
+  const RHX = () => M() ? W() - 70   : MED() ? W() - 122  : W() - 193;
+  const RHY = () => M() ? H()/2 - 24 : MED() ? H()/2 - 39 : H()/2 - 49;
+
+  /* ── Initial GSAP state ── */
+  gsap.set(lo,   { yPercent:-50, x:-380, opacity:0 });
+  gsap.set(roEl, { yPercent:-50, x: 380, opacity:0 });
+  gsap.set(lr,   { rotation: 28, transformOrigin:'50% 96.5%' });
+  gsap.set(rr,   { rotation:-28, transformOrigin:'50% 96.5%', scaleX:-1 });
+  /* Start shuttle above the left racket head — it will drop straight down onto it */
+  gsap.set(sh,   { x:LHX() - SHW/2, y:-200, opacity:0, rotation:0 });
+
+  /* ── Idle animations ── */
+  let idles = [];
+  function startIdle() {
+    idles = [
+      gsap.to(lr, { rotation:33,  duration:2.0, ease:'sine.inOut',
+        yoyo:true, repeat:-1, transformOrigin:'50% 96.5%' }),
+      gsap.to(rr, { rotation:-33, duration:2.2, ease:'sine.inOut',
+        yoyo:true, repeat:-1, transformOrigin:'50% 96.5%' }),
+      gsap.to(sh, { y:shHomeY()-18, duration:2.5, ease:'sine.inOut', yoyo:true, repeat:-1 }),
+    ];
+  }
+  function stopIdle() { idles.forEach(t => t.kill()); idles = []; }
+
+  function animateStats() {
+    if (statsAnimated) return;
+    statsAnimated = true;
+    const els = document.querySelectorAll('.sn');
+    const targets = [3, 15, 10];
+    els.forEach((el, i) => {
+      if (i >= targets.length) return;
+      const obj = { v: 0 };
+      gsap.to(obj, { v: targets[i], duration: 1.4, delay: i * 0.18, ease: 'power2.out',
+        snap: { v: 1 }, onUpdate() { el.textContent = Math.round(obj.v) + '+'; } });
+    });
+  }
+
+  /* ── UI sync ── */
+  function syncUI(n) {
+    dots.forEach((d,i) => d.classList.toggle('on', i===n));
+    prog.style.width = (n/(N-1)*100)+'%';
+    gsap.to(net, { opacity:n===0 ? 1 : 0, duration:0.6 });
+    maxSec = Math.max(maxSec, n);
+    const scoreEl = document.getElementById('hero-score');
+    if (scoreEl) scoreEl.textContent = maxSec + ' : 0';
+  }
+
+  /* ── INTRO SEQUENCE ──
+     t=0  : Black screen (brief pause)
+     t=0.3: Both rackets slide in from edges, shuttle drops from above
+     t=1.4: Idle begins (rackets rock, shuttle floats)
+     t=3.0: introReveal() → left racket serves → shuttle flies L→R → hero appears
+  */
+  function runIntro() {
+    const tl = gsap.timeline();
+    tl.to(lo,   { opacity:1, x:0, duration:0.95, ease:'power3.out' }, 0.3);
+    tl.to(roEl, { opacity:1, x:0, duration:0.95, ease:'power3.out' }, 0.3);
+    /* Shuttle drops from above directly onto left racket head */
+    tl.to(sh,   { opacity:1, y:shHomeY(), duration:0.85, ease:'bounce.out' }, 0.4);
+    /* Serve immediately after landing — no idle pause */
+    tl.call(() => { introReveal(); }, null, 1.55);
+  }
+
+  function introReveal() {
+    stopIdle();
+    const sx = LHX()  - SHW/2;
+    const sy = LHY()  - SHH/2;
+    const ex = RHX()  - SHW/2;
+    const ey = RHY()  - SHH/2;
+    const py = Math.min(H()*(M()?0.12:0.08), Math.min(sy,ey)-90) - SHH/2;
+    const HALF = 0.52;
+
+    gsap.set(sh, { x:sx, y:sy, rotation:0, opacity:1 });
+
+    const tl = gsap.timeline({
+      onComplete() {
+        cur = 0; busy = false;
+        gsap.set(sh, { x:shHomeX(), y:shHomeY(), opacity:0, rotation:0 });
+        startIdle();
+        syncUI(0);
+        dotsW.classList.add('vis');
+      }
+    });
+
+    tl.to(lr, { rotation:76, duration:0.26, ease:'power3.out', transformOrigin:'50% 96.5%' }, 0);
+
+    const arc = gsap.timeline();
+    arc.to(sh, { x:ex, duration:HALF*2, ease:'none'            }, 0);
+    arc.to(sh, { y:py, duration:HALF,   ease:'power2.out'      }, 0);
+    arc.to(sh, { y:ey, duration:HALF,   ease:'power2.in'       }, HALF);
+    arc.to(sh, { rotation:360,          duration:HALF*2, ease:'none' }, 0);
+    tl.add(arc, 0.24);
+
+    tl.to(rr, { rotation:-76, duration:0.25, ease:'power3.out', transformOrigin:'50% 96.5%' },
+      0.24+HALF*2-0.20);
+
+    const ret = 0.24+HALF*2+0.08;
+    tl.to(lr, { rotation:28,  duration:0.82, ease:'elastic.out(1,.36)', transformOrigin:'50% 96.5%' }, ret);
+    tl.to(rr, { rotation:-28, duration:0.82, ease:'elastic.out(1,.36)', transformOrigin:'50% 96.5%' }, ret);
+    tl.to(sh, { opacity:0, duration:0.14 }, 0.24+HALF*2-0.05);
+
+    tl.call(() => {
+      const s = secs[0];
+      s.classList.add('on');
+      gsap.fromTo(s, { opacity:0 }, { opacity:1, duration:0.7, ease:'power2.out' });
+      gsap.from(s.querySelectorAll('.hw > *'),
+        { opacity:0, y:28, duration:0.7, stagger:0.14, ease:'power3.out', delay:0.1 });
+      court.classList.add('vis');
+      gsap.to(net, { opacity:1, duration:1.1 });
+    }, null, 0.24+HALF*2-0.08);
+  }
+
+  /* ── MAIN SECTION TRANSITION ── */
+  window.goTo = function(target) {
+    if (busy || target===cur || target<0 || target>=N) return;
+    busy = true;
+    stopIdle();
+    gsap.to('.btn', { x: 0, y: 0, duration: .25, overwrite: 'auto' });
+
+    const from = secs[cur], to = secs[target];
+    const ltr  = target > cur;
+
+    /* Use the cursor's current screen position as the shuttle launch point */
+    const useCursor = cursorMoved && !M();
+    const sx = useCursor ? cmx - SHW/2 : (ltr ? LHX() - SHW/2 : RHX() - SHW/2);
+    const sy = useCursor ? cmy - SHH/2 : (ltr ? LHY() - SHH/2 : RHY() - SHH/2);
+    const ex = ltr ? RHX()  - SHW/2 : LHX() - SHW/2;
+    const ey = ltr ? RHY()  - SHH/2 : LHY() - SHH/2;
+    const py = Math.min(H()*(M()?0.12:0.08), Math.min(sy,ey)-90) - SHH/2;
+    const HALF = 0.52;
+
+    gsap.set(sh, { x:sx, y:sy, rotation:0, opacity:1 });
+
+    const tl = gsap.timeline({
+      onComplete() {
+        cur = target; busy = false;
+        gsap.set(sh, { x:shHomeX(), y:shHomeY(), opacity:0, rotation:0 });
+        startIdle();
+        syncUI(cur);
+      }
+    });
+
+    /* Fade out current section, reset its scroll so return visits start at top */
+    tl.to(from, { opacity:0, duration:0.35, ease:'power2.in',
+      onComplete(){ from.classList.remove('on'); from.scrollTop = 0; }
+    }, 0);
+
+    /* Hitting racket swings */
+    if (ltr) tl.to(lr, { rotation: 76, duration:0.26, ease:'power3.out', transformOrigin:'50% 96.5%' }, 0.10);
+    else     tl.to(rr, { rotation:-76, duration:0.26, ease:'power3.out', transformOrigin:'50% 96.5%' }, 0.10);
+
+    /* Parabolic arc */
+    const arc = gsap.timeline();
+    arc.to(sh, { x:ex, duration:HALF*2, ease:'none'            }, 0);
+    arc.to(sh, { y:py, duration:HALF,   ease:'power2.out'      }, 0);
+    arc.to(sh, { y:ey, duration:HALF,   ease:'power2.in'       }, HALF);
+    arc.to(sh, { rotation: ltr?360:-360, duration:HALF*2, ease:'none' }, 0);
+    tl.add(arc, 0.30);
+
+    /* Receiving racket */
+    const recAt = 0.30+HALF*2-0.20;
+    if (ltr) tl.to(rr, { rotation:-76, duration:0.25, ease:'power3.out', transformOrigin:'50% 96.5%' }, recAt);
+    else     tl.to(lr, { rotation: 76, duration:0.25, ease:'power3.out', transformOrigin:'50% 96.5%' }, recAt);
+
+    /* Spring-back both */
+    const retAt = 0.30+HALF*2+0.10;
+    tl.to(lr, { rotation: 28, duration:0.80, ease:'elastic.out(1,.36)', transformOrigin:'50% 96.5%' }, retAt);
+    tl.to(rr, { rotation:-28, duration:0.80, ease:'elastic.out(1,.36)', transformOrigin:'50% 96.5%' }, retAt);
+
+    /* Hide shuttle at arrival */
+    tl.to(sh, { opacity:0, duration:0.15 }, 0.30+HALF*2-0.06);
+
+    /* Reveal incoming section with stagger */
+    tl.call(() => {
+      to.classList.add('on');
+      gsap.fromTo(to, { opacity:0 }, { opacity:1, duration:0.5, ease:'power2.out' });
+      gsap.set(to.querySelectorAll('.pill,.zone-hd,.zone-label'), { clearProps:'all' });
+      gsap.from(
+        to.querySelectorAll('.lbl,.ttl,.dsc,.profile-badge,.profile-right,.stats,.ew,.pg,.sw,.contact-wrap>*,.cls'),
+        { opacity:0, y:24, duration:0.56, stagger:0.08, ease:'power3.out', delay:0.06 }
+      );
+      if (target === 1) animateStats();
+    }, null, 0.30+HALF*2-0.10);
+  };
+
+  /* Racket clicks disabled — navigation via scroll / keyboard / nav dots only */
+
+  /* ── Scroll ── */
+  let scrollAcc = 0, accReset;
+  window.addEventListener('wheel', e => {
+    e.preventDefault();
+    if (busy) return;
+
+    /* In-section scroll for overflowing sections */
+    const sec = secs[cur];
+    const scrollable = sec.scrollHeight > sec.clientHeight + 5;
+    if (scrollable) {
+      const atBottom = sec.scrollTop >= sec.scrollHeight - sec.clientHeight - 5;
+      const atTop    = sec.scrollTop <= 5;
+      if (e.deltaY > 0 && !atBottom) { sec.scrollTop += Math.min(e.deltaY, 80); scrollAcc = 0; return; }
+      if (e.deltaY < 0 && !atTop)    { sec.scrollTop += Math.max(e.deltaY, -80); scrollAcc = 0; return; }
+    }
+
+    /* Accumulate delta — fires as soon as threshold hit (fast on trackpad) */
+    scrollAcc += e.deltaY;
+    clearTimeout(accReset);
+    accReset = setTimeout(() => { scrollAcc = 0; }, 300);
+
+    if (scrollAcc >  80) { scrollAcc = 0; goTo(cur + 1); }
+    else if (scrollAcc < -80) { scrollAcc = 0; goTo(cur - 1); }
+  }, { passive:false });
+
+  /* ── Keyboard ── */
+  window.addEventListener('keydown', e => {
+    if (e.key==='ArrowDown'  || e.key==='ArrowRight') goTo(cur+1);
+    if (e.key==='ArrowUp'    || e.key==='ArrowLeft')  goTo(cur-1);
+  });
+
+  /* ── Touch swipe ── */
+  let ty0;
+  window.addEventListener('touchstart', e => { ty0 = e.touches[0].clientY; }, { passive:true });
+  window.addEventListener('touchend', e => {
+    if (busy) return;
+    const dy = ty0 - e.changedTouches[0].clientY;
+    if (Math.abs(dy) > 40) {
+      const sec = secs[cur];
+      const atBottom = sec.scrollHeight - sec.scrollTop - sec.clientHeight < 5;
+      const atTop    = sec.scrollTop < 5;
+      if (dy > 0 && !atBottom) return; /* still content below — let it scroll */
+      if (dy < 0 && !atTop)    return; /* still content above — let it scroll */
+      goTo(cur + (dy > 0 ? 1 : -1));
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (!busy) gsap.set(sh, { x:shHomeX(), y:shHomeY() });
+  });
+
+  /* Track mouse position so goTo can launch the shuttle from the cursor */
+  let cmx = 0, cmy = 0, cursorMoved = false, cursorHidden = false;
+  const cursorEl = { _vis: false }; /* stub — no visual cursor, just position tracking */
+
+  document.addEventListener('mousemove', e => {
+    cmx = e.clientX; cmy = e.clientY;
+    cursorMoved = true;
+
+    /* Magnetic buttons — only on hero section */
+    if (cur === 0) {
+      document.querySelectorAll('.btn').forEach(btn => {
+        const r = btn.getBoundingClientRect();
+        if (!r.width) return;
+        const bx = r.left + r.width / 2, by = r.top + r.height / 2;
+        const ddx = cmx - bx, ddy = cmy - by;
+        const dist = Math.sqrt(ddx * ddx + ddy * ddy);
+        const rad = 82;
+        if (dist < rad) {
+          const pull = (rad - dist) / rad;
+          gsap.to(btn, { x: ddx * pull * .36, y: ddy * pull * .36, duration: .3, ease: 'power2.out', overwrite: 'auto' });
+        } else {
+          gsap.to(btn, { x: 0, y: 0, duration: .5, ease: 'elastic.out(1,.4)', overwrite: 'auto' });
+        }
+      });
+    }
+  });
+
+  /* ── 3D card tilt ── */
+  document.querySelectorAll('.pc').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width / 2)  / (r.width / 2);
+      const dy = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+      gsap.to(card, { rotateX: -dy * 7, rotateY: dx * 7, transformPerspective: 900,
+        duration: .3, ease: 'power2.out', overwrite: 'auto' });
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateX: 0, rotateY: 0, duration: .6, ease: 'power3.out', overwrite: 'auto' });
+    });
+  });
+
+  /* ── Boston live clock ── */
+  function updateClock() {
+    const el = document.getElementById('boston-clock');
+    if (!el) return;
+    const t = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', hour12: true });
+    el.textContent = 'Boston · ' + t;
+  }
+  updateClock();
+  setInterval(updateClock, 60000);
+
+  /* ── START ── */
+  runIntro();
+
+})();
+</script>
+</body>
+</html>
